@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Profile from './Profile.js';
 import Signin from './Signin.js';
-import Nav from './nav.js';
+import TopBar from './TopBar.js'
+import SigninCover from './SigninCover.js';
+import ChatRoomBase from './ChatRoomBase.js';
 import {
   UserSession,
   AppConfig
@@ -23,22 +25,15 @@ export default class App extends Component {
     userSession.signUserOut(window.location.origin);
   }
 
-  renderNav(){
-    return(
-    <Nav
-      userSession={userSession}
-    />)
-  }
-
   render() {
     return (
       <div>
-        <div>{this.renderNav()}</div>
+        <TopBar userSession={userSession} handleSignIn={ this.handleSignIn } handleSignOut={ this.handleSignOut }/>
         <div className="site-wrapper">
           <div className="site-wrapper-inner">
             { !userSession.isUserSignedIn() ?
-              <Signin userSession={userSession} handleSignIn={ this.handleSignIn } />
-              : <Profile userSession={userSession} handleSignOut={ this.handleSignOut } />
+              <SigninCover userSession={userSession} />
+              : <ChatRoomBase userSession={userSession} />
             }
           </div>
         </div>
